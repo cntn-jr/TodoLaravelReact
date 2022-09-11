@@ -34,6 +34,7 @@ services:
 
   db:
     container_name: todo-laravel-react-db
+    user: "${UID}:${GID}"
     build:
       context: .
       dockerfile: ./docker/mysql/Dockerfile
