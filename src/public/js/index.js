@@ -37914,6 +37914,55 @@ exports.FormCreateTodo = (0, react_2.memo)(function () {
 
 /***/ }),
 
+/***/ "./resources/ts/components/organisms/TodoDetailModal.tsx":
+/*!***************************************************************!*\
+  !*** ./resources/ts/components/organisms/TodoDetailModal.tsx ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.TodoDetailModal = void 0;
+
+var jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+var react_1 = __webpack_require__(/*! @chakra-ui/react */ "./node_modules/@chakra-ui/react/dist/cjs/index.js");
+
+var TodoDetailModal = function TodoDetailModal(props) {
+  var isOpen = props.isOpen,
+      onClose = props.onClose,
+      todo = props.todo;
+  return (0, jsx_runtime_1.jsxs)(react_1.Modal, {
+    isOpen: isOpen,
+    onClose: onClose,
+    children: [(0, jsx_runtime_1.jsx)(react_1.ModalOverlay, {}), (0, jsx_runtime_1.jsxs)(react_1.ModalContent, {
+      children: [(0, jsx_runtime_1.jsx)(react_1.ModalHeader, {
+        children: "Modal Title"
+      }), (0, jsx_runtime_1.jsx)(react_1.ModalCloseButton, {}), (0, jsx_runtime_1.jsx)(react_1.ModalBody, {
+        children: todo === null || todo === void 0 ? void 0 : todo.title
+      }), (0, jsx_runtime_1.jsxs)(react_1.ModalFooter, {
+        children: [(0, jsx_runtime_1.jsx)(react_1.Button, {
+          colorScheme: 'blue',
+          mr: 3,
+          onClick: onClose,
+          children: "Close"
+        }), (0, jsx_runtime_1.jsx)(react_1.Button, {
+          variant: 'ghost',
+          children: "Secondary Action"
+        })]
+      })]
+    })]
+  });
+};
+
+exports.TodoDetailModal = TodoDetailModal;
+
+/***/ }),
+
 /***/ "./resources/ts/components/organisms/layout/Header.tsx":
 /*!*************************************************************!*\
   !*** ./resources/ts/components/organisms/layout/Header.tsx ***!
@@ -38082,6 +38131,18 @@ exports.Page404 = Page404;
 "use strict";
 
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 Object.defineProperty(exports, "__esModule", ({
   value: true
 }));
@@ -38089,29 +38150,64 @@ exports.Todos = void 0;
 
 var jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
-var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var react_1 = __webpack_require__(/*! @chakra-ui/react */ "./node_modules/@chakra-ui/react/dist/cjs/index.js");
+
+var react_2 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var useTodos_1 = __webpack_require__(/*! ../../hooks/useTodos */ "./resources/ts/hooks/useTodos.ts");
 
-exports.Todos = (0, react_1.memo)(function () {
+var TodoDetailModal_1 = __webpack_require__(/*! ../organisms/TodoDetailModal */ "./resources/ts/components/organisms/TodoDetailModal.tsx");
+
+exports.Todos = (0, react_2.memo)(function () {
   var _ref = (0, useTodos_1.useTodos)(),
       getTodos = _ref.getTodos,
       todos = _ref.todos;
 
-  (0, react_1.useEffect)(function () {
+  var _ref2 = (0, react_1.useDisclosure)(),
+      isOpen = _ref2.isOpen,
+      onOpen = _ref2.onOpen,
+      onClose = _ref2.onClose;
+
+  var _ref3 = (0, react_2.useState)(null),
+      _ref4 = _slicedToArray(_ref3, 2),
+      selectedTodo = _ref4[0],
+      setSelectedTodo = _ref4[1];
+
+  (0, react_2.useEffect)(function () {
     getTodos();
+  }, []);
+  var onOpenTodo = (0, react_2.useCallback)(function (todo) {
+    setSelectedTodo(todo);
+    onOpen();
   }, []);
   return (0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, {
     children: [(0, jsx_runtime_1.jsx)("h1", {
       children: "Todo\u3067\u3059\u3002"
-    }), todos.map(function (todo) {
-      return (0, jsx_runtime_1.jsxs)("div", {
-        children: [(0, jsx_runtime_1.jsx)("h4", {
-          children: todo.title
-        }), (0, jsx_runtime_1.jsx)("p", {
-          children: todo.detail
-        })]
-      }, todo.id);
+    }), (0, jsx_runtime_1.jsx)(react_1.SimpleGrid, {
+      columns: [3, null, 5],
+      textAlign: "center",
+      spacing: "3rem",
+      children: todos.map(function (todo) {
+        return (0, jsx_runtime_1.jsxs)(react_1.Box, {
+          height: "12rem",
+          width: "12rem",
+          mx: "auto",
+          shadow: "md",
+          bg: "gray.100",
+          onClick: function onClick() {
+            onOpenTodo(todo);
+          },
+          children: [(0, jsx_runtime_1.jsx)("h4", {
+            children: todo.title
+          }), (0, jsx_runtime_1.jsx)("p", {
+            children: todo.detail
+          })]
+        }, todo.id);
+      })
+    }), (0, jsx_runtime_1.jsx)(TodoDetailModal_1.TodoDetailModal, {
+      isOpen: isOpen,
+      onClose: onClose,
+      todo: selectedTodo
     })]
   });
 });

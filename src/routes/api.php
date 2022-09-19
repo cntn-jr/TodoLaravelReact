@@ -21,4 +21,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware'=>'api'],function(){
     Route::get('todos', 'App\Http\Controllers\TodoController@index');
     Route::post('todos/store', 'App\Http\Controllers\TodoController@store');
+    Route::get('todos/detail', 'App\Http\Controllers\TodoController@getTodo');
 });

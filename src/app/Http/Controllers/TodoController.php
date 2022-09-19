@@ -8,8 +8,8 @@ use Illuminate\Http\Request;
 class TodoController extends Controller
 {
     public function index(){
-        $todo = Todo::all();
-        return response()->json($todo);
+        $todos = Todo::all();
+        return response()->json($todos);
     }
 
     public function store(Request $request){
@@ -18,5 +18,10 @@ class TodoController extends Controller
         $todo->title = $request->title;
         $todo->detail = $request->detail;
         $todo->save();
+    }
+
+    public function getTodo(Request $request){
+        $todo = Todo::find($request->id);
+        return response()->json($todo);
     }
 }
