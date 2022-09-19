@@ -11,4 +11,12 @@ class TodoController extends Controller
         $todo = Todo::all();
         return response()->json($todo);
     }
+
+    public function store(Request $request){
+        header("Access-Control-Allow-Origin: *");
+        $todo = new Todo();
+        $todo->title = $request->title;
+        $todo->detail = $request->detail;
+        $todo->save();
+    }
 }

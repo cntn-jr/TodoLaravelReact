@@ -37718,6 +37718,55 @@ exports["default"] = App;
 
 /***/ }),
 
+/***/ "./resources/ts/components/atoms/SimpleInputText.tsx":
+/*!***********************************************************!*\
+  !*** ./resources/ts/components/atoms/SimpleInputText.tsx ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.SimpleInputText = void 0;
+
+var jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+var react_1 = __webpack_require__(/*! @chakra-ui/react */ "./node_modules/@chakra-ui/react/dist/cjs/index.js");
+
+var react_2 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+exports.SimpleInputText = (0, react_2.memo)(function (props) {
+  var label = props.label,
+      name = props.name,
+      my = props.my,
+      value = props.value,
+      onChange = props.onChange;
+  var isError = value === '';
+  return (0, jsx_runtime_1.jsx)(jsx_runtime_1.Fragment, {
+    children: (0, jsx_runtime_1.jsxs)(react_1.FormControl, {
+      isInvalid: isError,
+      my: my,
+      children: [(0, jsx_runtime_1.jsx)(react_1.FormLabel, {
+        children: label
+      }), (0, jsx_runtime_1.jsx)(react_1.Input, {
+        type: 'text',
+        value: value,
+        onChange: onChange,
+        name: name
+      }), !isError ? (0, jsx_runtime_1.jsxs)(react_1.FormHelperText, {
+        children: ["Please enter the ", label, " of the desired Todo."]
+      }) : (0, jsx_runtime_1.jsxs)(react_1.FormErrorMessage, {
+        children: [label, " is required."]
+      })]
+    })
+  });
+});
+
+/***/ }),
+
 /***/ "./resources/ts/components/atoms/SimpleTab.tsx":
 /*!*****************************************************!*\
   !*** ./resources/ts/components/atoms/SimpleTab.tsx ***!
@@ -37745,6 +37794,120 @@ exports.SimpleTab = (0, react_2.memo)(function (props) {
     children: (0, jsx_runtime_1.jsx)(react_1.Tab, {
       onClick: onClick,
       children: children
+    })
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/ts/components/organisms/FormCreateTodo.tsx":
+/*!**************************************************************!*\
+  !*** ./resources/ts/components/organisms/FormCreateTodo.tsx ***!
+  \**************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.FormCreateTodo = void 0;
+
+var jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+var react_1 = __webpack_require__(/*! @chakra-ui/react */ "./node_modules/@chakra-ui/react/dist/cjs/index.js");
+
+var axios_1 = __importDefault(__webpack_require__(/*! axios */ "./node_modules/axios/index.js"));
+
+var react_2 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+
+var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+var SimpleInputText_1 = __webpack_require__(/*! ../atoms/SimpleInputText */ "./resources/ts/components/atoms/SimpleInputText.tsx");
+
+exports.FormCreateTodo = (0, react_2.memo)(function () {
+  var _ref = (0, react_2.useState)(''),
+      _ref2 = _slicedToArray(_ref, 2),
+      newTitle = _ref2[0],
+      setNewTitle = _ref2[1];
+
+  var _ref3 = (0, react_2.useState)(''),
+      _ref4 = _slicedToArray(_ref3, 2),
+      newDetail = _ref4[0],
+      setNewDetail = _ref4[1];
+
+  var history = (0, react_router_dom_1.useHistory)();
+
+  var onChangeTitle = function onChangeTitle(e) {
+    setNewTitle(e.target.value);
+  };
+
+  var onChangeDetail = function onChangeDetail(e) {
+    setNewDetail(e.target.value);
+  };
+
+  var onClickButton = function onClickButton() {
+    axios_1["default"].post('/api/todos/store', {
+      title: newTitle,
+      detail: newDetail
+    }).then(function (res) {
+      console.log(res);
+      history.push('/todos');
+    })["catch"](function (error) {
+      console.log(error);
+    });
+  };
+
+  return (0, jsx_runtime_1.jsx)(react_1.Box, {
+    w: "60%",
+    mx: "auto",
+    py: 3,
+    px: 3,
+    children: (0, jsx_runtime_1.jsxs)("form", {
+      action: "/api/todos/store",
+      method: "POST",
+      children: [(0, jsx_runtime_1.jsx)("input", {
+        type: "hidden",
+        name: "_method",
+        value: "post"
+      }), (0, jsx_runtime_1.jsx)(SimpleInputText_1.SimpleInputText, {
+        label: 'Title',
+        name: "title",
+        value: newTitle,
+        my: 2,
+        onChange: onChangeTitle
+      }), (0, jsx_runtime_1.jsx)(SimpleInputText_1.SimpleInputText, {
+        label: 'Detail',
+        name: "detail",
+        value: newDetail,
+        my: 2,
+        onChange: onChangeDetail
+      }), (0, jsx_runtime_1.jsx)(react_1.Button, {
+        mt: 4,
+        colorScheme: 'teal',
+        // isLoading={props.isSubmitting}
+        onClick: onClickButton,
+        children: "Add"
+      })]
     })
   });
 });
@@ -37820,11 +37983,13 @@ exports.Add = void 0;
 
 var jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
+var FormCreateTodo_1 = __webpack_require__(/*! ../organisms/FormCreateTodo */ "./resources/ts/components/organisms/FormCreateTodo.tsx");
+
 var Add = function Add() {
-  return (0, jsx_runtime_1.jsx)(jsx_runtime_1.Fragment, {
-    children: (0, jsx_runtime_1.jsx)("h1", {
-      children: "Todo\u3092\u8FFD\u52A0"
-    })
+  return (0, jsx_runtime_1.jsxs)(jsx_runtime_1.Fragment, {
+    children: [(0, jsx_runtime_1.jsx)("h1", {
+      children: "Todo\u3092\u8FFD\u52A0\u3057\u307E\u3057\u3087\u3046"
+    }), (0, jsx_runtime_1.jsx)(FormCreateTodo_1.FormCreateTodo, {})]
   });
 };
 
@@ -37868,6 +38033,43 @@ exports.Home = (0, react_1.memo)(function () {
     })
   });
 });
+
+/***/ }),
+
+/***/ "./resources/ts/components/pages/Page404.tsx":
+/*!***************************************************!*\
+  !*** ./resources/ts/components/pages/Page404.tsx ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", ({
+  value: true
+}));
+exports.Page404 = void 0;
+
+var jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+var react_1 = __webpack_require__(/*! @chakra-ui/react */ "./node_modules/@chakra-ui/react/dist/cjs/index.js");
+
+var Page404 = function Page404() {
+  return (0, jsx_runtime_1.jsx)(react_1.Box, {
+    textAlign: "center",
+    height: "100%",
+    children: (0, jsx_runtime_1.jsx)("h1", {
+      children: (0, jsx_runtime_1.jsx)(react_1.Text, {
+        fontSize: "3rem",
+        mt: "50",
+        color: "gray",
+        children: "404 Not Found"
+      })
+    })
+  });
+};
+
+exports.Page404 = Page404;
 
 /***/ }),
 
@@ -38022,7 +38224,9 @@ exports.Router = void 0;
 
 var jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 
-var react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var react_1 = __webpack_require__(/*! @chakra-ui/react */ "./node_modules/@chakra-ui/react/dist/cjs/index.js");
+
+var react_2 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 
 var react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 
@@ -38032,21 +38236,30 @@ var Add_1 = __webpack_require__(/*! ../components/pages/Add */ "./resources/ts/c
 
 var Home_1 = __webpack_require__(/*! ../components/pages/Home */ "./resources/ts/components/pages/Home.tsx");
 
+var Page404_1 = __webpack_require__(/*! ../components/pages/Page404 */ "./resources/ts/components/pages/Page404.tsx");
+
 var Todos_1 = __webpack_require__(/*! ../components/pages/Todos */ "./resources/ts/components/pages/Todos.tsx");
 
-exports.Router = (0, react_1.memo)(function () {
-  return (0, jsx_runtime_1.jsxs)(react_router_dom_1.Switch, {
-    children: [(0, jsx_runtime_1.jsx)(react_router_dom_2.Route, {
-      path: "/",
-      exact: true,
-      children: (0, jsx_runtime_1.jsx)(Home_1.Home, {})
-    }), (0, jsx_runtime_1.jsx)(react_router_dom_2.Route, {
-      path: "/todos",
-      children: (0, jsx_runtime_1.jsx)(Todos_1.Todos, {})
-    }), (0, jsx_runtime_1.jsx)(react_router_dom_2.Route, {
-      path: "/add",
-      children: (0, jsx_runtime_1.jsx)(Add_1.Add, {})
-    })]
+exports.Router = (0, react_2.memo)(function () {
+  return (0, jsx_runtime_1.jsx)(react_1.Box, {
+    px: 3,
+    py: 3,
+    children: (0, jsx_runtime_1.jsxs)(react_router_dom_1.Switch, {
+      children: [(0, jsx_runtime_1.jsx)(react_router_dom_2.Route, {
+        path: "/",
+        exact: true,
+        children: (0, jsx_runtime_1.jsx)(Home_1.Home, {})
+      }), (0, jsx_runtime_1.jsx)(react_router_dom_2.Route, {
+        path: "/todos",
+        children: (0, jsx_runtime_1.jsx)(Todos_1.Todos, {})
+      }), (0, jsx_runtime_1.jsx)(react_router_dom_2.Route, {
+        path: "/add",
+        children: (0, jsx_runtime_1.jsx)(Add_1.Add, {})
+      }), (0, jsx_runtime_1.jsx)(react_router_dom_2.Route, {
+        path: "*",
+        children: (0, jsx_runtime_1.jsx)(Page404_1.Page404, {})
+      })]
+    })
   });
 });
 
